@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Hoarding Assessment — BuildPKM</title>
+  <meta name="description" content="Find out where your knowledge system breaks down. 15 questions, 3 minutes, instant results.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --teal: #008080;
+      --teal-dark: #006666;
+      --teal-light: #00a0a0;
+      --teal-glow: rgba(0, 128, 128, 0.15);
+      --teal-subtle: rgba(0, 128, 128, 0.06);
+      --bg: #F6F5EF;
+      --bg-warm: #EFEEE8;
+      --surface: #FFFFFF;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --text-light: #8a8a8a;
+      --border: #e0dfda;
+      --red: #e74c3c;
+      --amber: #f39c12;
+      --green: #27ae60;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--teal);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span { color: var(--text); }
+
+    .nav-step {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    /* ─── LAYOUT ─── */
+    .quiz-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 120px;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrapper {
+      margin-bottom: 48px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-label {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .progress-count {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 100px;
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      width: 0%;
+    }
+
+    /* ─── QUESTION SCREENS ─── */
+    .screen {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-pillar {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+    }
+
+    .question-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: -20px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* ─── OPTION BUTTONS (single select) ─── */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: left;
+      width: 100%;
+    }
+
+    .option:hover {
+      border-color: var(--teal);
+      background: var(--teal-subtle);
+    }
+
+    .option.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .option-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .option.selected .option-radio {
+      border-color: var(--teal);
+    }
+
+    .option.selected .option-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .option-label { flex: 1; line-height: 1.5; }
+
+    /* ─── TEXT INPUT (qualifying questions) ─── */
+    .text-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.2s ease;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .text-input:focus {
+      border-color: var(--teal);
+    }
+
+    .text-input::placeholder {
+      color: var(--text-light);
+    }
+
+    /* ─── EMAIL CAPTURE ─── */
+    .email-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .email-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .email-input:focus {
+      border-color: var(--teal);
+    }
+
+    .name-email-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ─── NAV BUTTONS ─── */
+    .question-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 36px;
+    }
+
+    .btn-back {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 0;
+      transition: color 0.2s ease;
+    }
+
+    .btn-back:hover { color: var(--text); }
+    .btn-back:disabled { opacity: 0; pointer-events: none; }
+
+    .btn-next {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 14px 32px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-next:hover:not(:disabled) {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-next svg { transition: transform 0.2s ease; }
+    .btn-next:hover:not(:disabled) svg { transform: translateX(3px); }
+
+    /* ─── RESULTS PAGE ─── */
+    .results-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .results-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .results-header p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Score Ring */
+    .score-ring-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .score-ring-wrapper {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .score-ring-wrapper svg {
+      transform: rotate(-90deg);
+    }
+
+    .score-ring-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+
+    .score-ring-fill {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+    }
+
+    .score-ring-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .score-value {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* Pillar Breakdown */
+    .pillar-scores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .pillar-score-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .pillar-score-title {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .pillar-score-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .pillar-score-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      width: 0%;
+    }
+
+    .pillar-score-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .pillar-score-max {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    /* Insights */
+    .insights {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .insight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+    }
+
+    .insight-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .insight-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .insight-card.strength { border-left-color: var(--green); }
+    .insight-card.weakness { border-left-color: var(--red); }
+    .insight-card.opportunity { border-left-color: var(--amber); }
+
+    /* Results CTA */
+    .results-cta {
+      background: var(--text);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .results-cta h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .results-cta p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .btn-cta-results {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 16px 40px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta-results:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 128, 128, 0.3);
+    }
+
+    .results-share {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .results-share a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ─── INTRO SCREEN ─── */
+    .intro-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--teal-glow);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .intro-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .intro-meta {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .intro-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .intro-meta-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-start {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 16px 40px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-start:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 128, 128, 0.25);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      nav { padding: 14px 20px; }
+      .quiz-container { padding: 32px 20px 100px; }
+      .name-email-row { grid-template-columns: 1fr; }
+      .pillar-scores { grid-template-columns: 1fr; }
+      .intro-meta { flex-direction: column; gap: 12px; }
+      .results-cta { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Build<span>PKM</span></a>
+    <div class="nav-step" id="navStep"></div>
+  </nav>
+
+  <div class="quiz-container">
+
+    <!-- PROGRESS -->
+    <div class="progress-wrapper" id="progressWrapper" style="display:none;">
+      <div class="progress-header">
+        <span class="progress-label" id="progressPillar"></span>
+        <span class="progress-count" id="progressCount"></span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- INTRO SCREEN -->
+    <div class="screen active" id="screen-intro">
+      <div class="intro-icon">
+        <svg width="28" height="28" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>
+      </div>
+      <h1 class="intro-title">Digital Hoarding Assessment</h1>
+      <p class="intro-desc">
+        Answer 15 honest questions about how you capture, process, and retrieve information.
+        No judgment — just a clear picture of where your system breaks down and what to fix first.
+      </p>
+      <div class="intro-meta">
+        <div class="intro-meta-item">
+          <div class="intro-meta-icon">
+            <svg width="16" height="16" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <span>3 minutes</span>
+        </div>
+        <div class="intro-meta-item">
+          <div class="intro-meta-icon">
+            <svg width="16" height="16" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span>No signup to start</span>
+        </div>
+        <div class="intro-meta-item">
+          <div class="intro-meta-icon">
+            <svg width="16" height="16" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          </div>
+          <span>Instant results</span>
+        </div>
+      </div>
+      <button class="btn-start" onclick="startQuiz()">
+        Start Assessment
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION SCREENS (generated by JS) -->
+    <div id="questionScreens"></div>
+
+    <!-- CONTACT CAPTURE -->
+    <div class="screen" id="screen-contact">
+      <div class="intro-icon">
+        <svg width="28" height="28" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+      </div>
+      <h2 class="intro-title">Almost there. Where should we send your results?</h2>
+      <p class="question-sub" style="margin-top: 0;">We'll email you a detailed breakdown with your personalized action plan and one high-impact recommendation.</p>
+      <div class="email-group">
+        <div class="name-email-row">
+          <input type="text" class="email-input" id="inputName" placeholder="First name" autocomplete="given-name">
+          <input type="email" class="email-input" id="inputEmail" placeholder="Email address" autocomplete="email">
+        </div>
+      </div>
+      <div class="question-nav">
+        <button class="btn-back" onclick="goBack()">&larr; Back</button>
+        <button class="btn-next" id="btnResults" onclick="showResults()">
+          See My Results
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div class="screen" id="screen-results">
+      <div class="results-header">
+        <h1 id="resultsHeadline"></h1>
+        <p id="resultsSub"></p>
+      </div>
+
+      <div class="score-ring-container">
+        <div class="score-ring-wrapper">
+          <svg width="200" height="200" viewBox="0 0 200 200">
+            <circle class="score-ring-bg" cx="100" cy="100" r="88"/>
+            <circle class="score-ring-fill" id="scoreRing" cx="100" cy="100" r="88"/>
+          </svg>
+          <div class="score-ring-center">
+            <div class="score-value" id="scoreValue">0</div>
+            <div class="score-label">out of 100</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pillar-scores">
+        <div class="pillar-score-card">
+          <div class="pillar-score-title">Capture</div>
+          <div class="pillar-score-bar">
+            <div class="pillar-score-fill" id="captureBar"></div>
+          </div>
+          <span class="pillar-score-num" id="captureScore">0</span>
+          <span class="pillar-score-max">/ 100</span>
+        </div>
+        <div class="pillar-score-card">
+          <div class="pillar-score-title">Processing</div>
+          <div class="pillar-score-bar">
+            <div class="pillar-score-fill" id="processingBar"></div>
+          </div>
+          <span class="pillar-score-num" id="processingScore">0</span>
+          <span class="pillar-score-max">/ 100</span>
+        </div>
+        <div class="pillar-score-card">
+          <div class="pillar-score-title">Retrieval</div>
+          <div class="pillar-score-bar">
+            <div class="pillar-score-fill" id="retrievalBar"></div>
+          </div>
+          <span class="pillar-score-num" id="retrievalScore">0</span>
+          <span class="pillar-score-max">/ 100</span>
+        </div>
+      </div>
+
+      <div class="insights" id="insights"></div>
+
+      <div class="results-cta" id="resultsCta"></div>
+
+      <p class="results-share">
+        <a href="index.html">Back to BuildPKM</a>
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // ─── QUESTION DATA ───
+    const questions = [
+      // CAPTURE (Q1-4) — scored 0-3 per question, total max 12 → normalized to 100
+      {
+        pillar: 'Capture',
+        text: 'When an interesting idea hits you, how quickly can you capture it?',
+        type: 'choice',
+        options: [
+          { label: 'Under 10 seconds — I have a system ready to go', score: 3 },
+          { label: 'Under a minute — I open an app and type it out', score: 2 },
+          { label: 'A few minutes — I have to decide where to put it first', score: 1 },
+          { label: 'I usually just try to remember it', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Capture',
+        text: 'How many different apps or tools do you currently save things to?',
+        type: 'choice',
+        options: [
+          { label: '1-2 apps — everything funnels to the same place', score: 3 },
+          { label: '3-4 apps — a few tools for different types of content', score: 2 },
+          { label: '5-6 apps — it\'s scattered but I know where things are (mostly)', score: 1 },
+          { label: '7+ apps — honestly, I\'ve lost track', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Capture',
+        text: 'When you find an interesting article or video online, what happens next?',
+        type: 'choice',
+        options: [
+          { label: 'I read/watch it, then save the key ideas in my own words', score: 3 },
+          { label: 'I save it with a note about why it matters', score: 2 },
+          { label: 'I bookmark it or save it for later', score: 1 },
+          { label: 'I open it in a new tab and hope to get back to it', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Capture',
+        text: 'Do all your captures end up in one inbox before being sorted?',
+        type: 'choice',
+        options: [
+          { label: 'Yes — everything lands in a single inbox, then I sort it', score: 3 },
+          { label: 'Mostly — most things go to one place', score: 2 },
+          { label: 'Not really — different things end up in different places', score: 1 },
+          { label: 'No — things go wherever I happen to be at the time', score: 0 },
+        ]
+      },
+      // PROCESSING (Q5-8) — scored 0-3, total max 12 → normalized to 100
+      {
+        pillar: 'Processing',
+        text: 'How often do you go back and actually process your saved items?',
+        type: 'choice',
+        options: [
+          { label: 'Daily — I have a set time for processing', score: 3 },
+          { label: 'Weekly — I batch process once a week', score: 2 },
+          { label: 'Occasionally — when I remember or feel motivated', score: 1 },
+          { label: 'Almost never — my saved items pile up untouched', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Processing',
+        text: 'When you do process something, what does that actually look like?',
+        type: 'choice',
+        options: [
+          { label: 'I rewrite the key ideas in my own words and link to related notes', score: 3 },
+          { label: 'I highlight the important parts and write a short summary', score: 2 },
+          { label: 'I re-read it and maybe tag or file it', score: 1 },
+          { label: 'I just skim it again and leave it where it is', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Processing',
+        text: 'What percentage of your saved content have you actually revisited and processed?',
+        type: 'choice',
+        options: [
+          { label: 'More than 75% — I process most of what I capture', score: 3 },
+          { label: '50-75% — I get to about half', score: 2 },
+          { label: '25-50% — less than half, but I try', score: 1 },
+          { label: 'Less than 25% — most of it sits untouched', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Processing',
+        text: 'Do you have a regular time or routine specifically for processing your notes?',
+        type: 'choice',
+        options: [
+          { label: 'Yes — it\'s a daily habit, like brushing teeth', score: 3 },
+          { label: 'Yes — I do it weekly, same day each week', score: 2 },
+          { label: 'Sort of — I try but it\'s not consistent', score: 1 },
+          { label: 'No — I process things ad hoc, if at all', score: 0 },
+        ]
+      },
+      // RETRIEVAL (Q9-10) — scored 0-3, total max 6 → normalized to 100
+      {
+        pillar: 'Retrieval',
+        text: 'When you need to find something you saved before, how confident are you that you\'ll find it?',
+        type: 'choice',
+        options: [
+          { label: 'Very confident — I can find anything in under a minute', score: 3 },
+          { label: 'Fairly confident — I usually find it after some searching', score: 2 },
+          { label: 'Not very — it\'s hit or miss', score: 1 },
+          { label: 'Not at all — I often give up and Google it again', score: 0 },
+        ]
+      },
+      {
+        pillar: 'Retrieval',
+        text: 'How do you typically find information in your notes?',
+        type: 'choice',
+        options: [
+          { label: 'I follow links between notes — my ideas are connected', score: 3 },
+          { label: 'I search by keywords — full-text search usually works', score: 2 },
+          { label: 'I browse through folders hoping to spot it', score: 1 },
+          { label: 'I don\'t really have a method — I just scroll and hope', score: 0 },
+        ]
+      },
+      // QUALIFYING (Q11-15) — not scored, used for segmentation
+      {
+        pillar: 'About You',
+        text: 'What\'s your biggest frustration with managing information right now?',
+        type: 'text',
+        placeholder: 'Be specific — what happened recently that made you feel the pain?'
+      },
+      {
+        pillar: 'About You',
+        text: 'What\'s stopped you from building a system that works?',
+        type: 'choice',
+        qualifying: true,
+        options: [
+          { label: 'Too many options — I don\'t know which system to pick', score: 0 },
+          { label: 'No time — I know what to do but can\'t find the time to do it', score: 0 },
+          { label: 'Overwhelm — the backlog is so big I don\'t know where to start', score: 0 },
+          { label: 'I\'ve tried and failed before — lost motivation', score: 0 },
+        ]
+      },
+      {
+        pillar: 'About You',
+        text: 'Which best describes what you\'re looking for?',
+        type: 'choice',
+        qualifying: true,
+        options: [
+          { label: 'A clear guide I can follow on my own (DIY)', score: 0 },
+          { label: 'Someone to walk me through it and keep me accountable (Coaching)', score: 0 },
+          { label: 'Someone to set it up for me and teach me how to maintain it (Done-for-you)', score: 0 },
+          { label: 'Just curious — I want to understand the problem first', score: 0 },
+        ]
+      },
+      {
+        pillar: 'About You',
+        text: 'How much time per week would you realistically invest in maintaining a PKM system?',
+        type: 'choice',
+        qualifying: true,
+        options: [
+          { label: '15 minutes or less', score: 0 },
+          { label: '15-30 minutes', score: 0 },
+          { label: '30-60 minutes', score: 0 },
+          { label: '1+ hours — I\'m serious about this', score: 0 },
+        ]
+      },
+      {
+        pillar: 'About You',
+        text: 'Anything else we should know about your situation?',
+        type: 'text',
+        placeholder: 'Optional — but the more context you share, the better your recommendations will be.'
+      },
+    ];
+
+    // ─── STATE ───
+    let currentScreen = 'intro';
+    let currentQuestion = 0;
+    const answers = {};
+    const totalQuestions = questions.length;
+
+    // ─── BUILD QUESTION SCREENS ───
+    function buildScreens() {
+      const container = document.getElementById('questionScreens');
+      questions.forEach((q, i) => {
+        const screen = document.createElement('div');
+        screen.className = 'screen';
+        screen.id = `screen-q${i}`;
+
+        let optionsHTML = '';
+        if (q.type === 'choice') {
+          optionsHTML = '<div class="options">';
+          q.options.forEach((opt, j) => {
+            optionsHTML += `
+              <button class="option" data-question="${i}" data-option="${j}" onclick="selectOption(${i}, ${j})">
+                <div class="option-radio"></div>
+                <span class="option-label">${opt.label}</span>
+              </button>`;
+          });
+          optionsHTML += '</div>';
+        } else {
+          optionsHTML = `<textarea class="text-input" id="textInput${i}" placeholder="${q.placeholder || ''}" oninput="onTextInput(${i})"></textarea>`;
+        }
+
+        screen.innerHTML = `
+          <div class="question-pillar">${q.pillar}</div>
+          <h2 class="question-text">${q.text}</h2>
+          ${optionsHTML}
+          <div class="question-nav">
+            <button class="btn-back" onclick="goBack()" ${i === 0 ? 'disabled' : ''}>&larr; Back</button>
+            <button class="btn-next" id="btnNext${i}" onclick="goNext()" ${q.type === 'choice' ? 'disabled' : ''}>
+              ${i === totalQuestions - 1 ? 'Continue' : 'Next'}
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>`;
+
+        container.appendChild(screen);
+      });
+    }
+
+    // ─── NAVIGATION ───
+    function startQuiz() {
+      showScreen('q0');
+      document.getElementById('progressWrapper').style.display = 'block';
+      updateProgress();
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const screen = document.getElementById(`screen-${id}`);
+      if (screen) {
+        screen.classList.remove('active');
+        // Force reflow for animation
+        void screen.offsetWidth;
+        screen.classList.add('active');
+      }
+
+      if (id.startsWith('q')) {
+        currentQuestion = parseInt(id.substring(1));
+        currentScreen = 'question';
+        updateProgress();
+        document.getElementById('navStep').textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
+      } else if (id === 'contact') {
+        currentScreen = 'contact';
+        document.getElementById('navStep').textContent = 'Almost done';
+        document.getElementById('progressWrapper').style.display = 'none';
+      } else if (id === 'results') {
+        currentScreen = 'results';
+        document.getElementById('navStep').textContent = 'Your Results';
+        document.getElementById('progressWrapper').style.display = 'none';
+      }
+    }
+
+    function goNext() {
+      if (currentScreen === 'question') {
+        if (currentQuestion < totalQuestions - 1) {
+          showScreen(`q${currentQuestion + 1}`);
+        } else {
+          showScreen('contact');
+        }
+      }
+    }
+
+    function goBack() {
+      if (currentScreen === 'contact') {
+        showScreen(`q${totalQuestions - 1}`);
+        document.getElementById('progressWrapper').style.display = 'block';
+      } else if (currentScreen === 'question' && currentQuestion > 0) {
+        showScreen(`q${currentQuestion - 1}`);
+      }
+    }
+
+    function selectOption(qIndex, optIndex) {
+      answers[qIndex] = optIndex;
+
+      // Update UI
+      document.querySelectorAll(`[data-question="${qIndex}"]`).forEach(btn => btn.classList.remove('selected'));
+      document.querySelector(`[data-question="${qIndex}"][data-option="${optIndex}"]`).classList.add('selected');
+
+      // Enable next button
+      const btn = document.getElementById(`btnNext${qIndex}`);
+      if (btn) btn.disabled = false;
+
+      // Auto-advance after short delay
+      setTimeout(() => goNext(), 350);
+    }
+
+    function onTextInput(qIndex) {
+      const val = document.getElementById(`textInput${qIndex}`).value;
+      answers[qIndex] = val;
+      // Text inputs are always advanceable (optional)
+      const btn = document.getElementById(`btnNext${qIndex}`);
+      if (btn) btn.disabled = false;
+    }
+
+    function updateProgress() {
+      const pct = ((currentQuestion + 1) / totalQuestions) * 100;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressCount').textContent = `${currentQuestion + 1} / ${totalQuestions}`;
+
+      const q = questions[currentQuestion];
+      document.getElementById('progressPillar').textContent = q.pillar;
+    }
+
+    // ─── SCORING ───
+    function calculateScores() {
+      let capture = 0, captureMax = 0;
+      let processing = 0, processingMax = 0;
+      let retrieval = 0, retrievalMax = 0;
+
+      questions.forEach((q, i) => {
+        if (q.type !== 'choice' || q.qualifying) return;
+        const maxScore = Math.max(...q.options.map(o => o.score));
+        const selected = answers[i] !== undefined ? q.options[answers[i]].score : 0;
+
+        if (q.pillar === 'Capture') { capture += selected; captureMax += maxScore; }
+        if (q.pillar === 'Processing') { processing += selected; processingMax += maxScore; }
+        if (q.pillar === 'Retrieval') { retrieval += selected; retrievalMax += maxScore; }
+      });
+
+      const captureNorm = captureMax > 0 ? Math.round((capture / captureMax) * 100) : 0;
+      const processingNorm = processingMax > 0 ? Math.round((processing / processingMax) * 100) : 0;
+      const retrievalNorm = retrievalMax > 0 ? Math.round((retrieval / retrievalMax) * 100) : 0;
+      const total = Math.round((captureNorm + processingNorm + retrievalNorm) / 3);
+
+      return { total, capture: captureNorm, processing: processingNorm, retrieval: retrievalNorm };
+    }
+
+    function getScoreColor(score) {
+      if (score >= 70) return 'var(--green)';
+      if (score >= 40) return 'var(--amber)';
+      return 'var(--red)';
+    }
+
+    // ─── RESULTS ───
+    function showResults() {
+      const scores = calculateScores();
+      showScreen('results');
+      window.scrollTo(0, 0);
+
+      // Headline based on total score
+      const headline = document.getElementById('resultsHeadline');
+      const sub = document.getElementById('resultsSub');
+
+      if (scores.total >= 70) {
+        headline.textContent = 'Strong foundations. Let\'s make them exceptional.';
+        sub.textContent = `You scored ${scores.total}/100 — you're ahead of most people. But there's still room to level up, especially in your weakest pillar.`;
+      } else if (scores.total >= 40) {
+        headline.textContent = 'You\'re halfway there. Here\'s where to focus.';
+        sub.textContent = `You scored ${scores.total}/100 — you have some good habits, but your system has clear gaps that are costing you time and mental energy.`;
+      } else {
+        headline.textContent = 'Your system is working against you. Let\'s fix that.';
+        sub.textContent = `You scored ${scores.total}/100 — don't worry, this is more common than you think. The good news: small changes will create big results.`;
+      }
+
+      // Animate score ring
+      const ring = document.getElementById('scoreRing');
+      const circumference = 2 * Math.PI * 88;
+      ring.style.strokeDasharray = circumference;
+      ring.style.strokeDashoffset = circumference;
+      ring.style.stroke = getScoreColor(scores.total);
+
+      setTimeout(() => {
+        ring.style.strokeDashoffset = circumference - (circumference * scores.total / 100);
+      }, 200);
+
+      // Animate score number
+      animateNumber('scoreValue', scores.total, 1500);
+      document.getElementById('scoreValue').style.color = getScoreColor(scores.total);
+
+      // Pillar bars
+      setTimeout(() => {
+        animatePillar('capture', scores.capture);
+        animatePillar('processing', scores.processing);
+        animatePillar('retrieval', scores.retrieval);
+      }, 400);
+
+      // Generate insights
+      generateInsights(scores);
+
+      // Generate CTA
+      generateCTA(scores);
+    }
+
+    function animateNumber(id, target, duration) {
+      const el = document.getElementById(id);
+      const start = 0;
+      const startTime = performance.now();
+
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(start + (target - start) * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    function animatePillar(name, score) {
+      const bar = document.getElementById(`${name}Bar`);
+      const num = document.getElementById(`${name}Score`);
+      bar.style.background = getScoreColor(score);
+      bar.style.width = `${score}%`;
+      animateNumber(`${name}Score`, score, 1200);
+    }
+
+    function generateInsights(scores) {
+      const container = document.getElementById('insights');
+      const insights = [];
+
+      // Find strongest and weakest
+      const pillars = [
+        { name: 'Capture', score: scores.capture },
+        { name: 'Processing', score: scores.processing },
+        { name: 'Retrieval', score: scores.retrieval },
+      ].sort((a, b) => a.score - b.score);
+
+      const weakest = pillars[0];
+      const strongest = pillars[2];
+
+      // Strength insight
+      const strengthMessages = {
+        Capture: 'Your capture game is solid. You\'re getting information into your system quickly and consistently — that\'s the foundation everything else builds on.',
+        Processing: 'You\'re actually processing what you capture. This is rare. Most people save and forget — you\'re turning raw input into your own thinking.',
+        Retrieval: 'You can find what you need when you need it. That means your system is actually working for you, not just storing things.',
+      };
+
+      insights.push({
+        type: 'strength',
+        title: `Strength: ${strongest.name}`,
+        body: strengthMessages[strongest.name],
+      });
+
+      // Weakness insight
+      const weaknessMessages = {
+        Capture: 'Your capture system has too much friction. Ideas are slipping through the cracks because it takes too long to save them, or they\'re scattered across too many tools. <strong>First fix:</strong> Pick one inbox app and commit to it for 30 days. Everything goes there first.',
+        Processing: 'You\'re capturing plenty but not processing it. Your saved items are piling up as intellectual debt — open loops consuming background mental energy. <strong>First fix:</strong> Set a 15-minute daily timer. Process 3 items: summarize in your own words, add one link, move out of inbox.',
+        Retrieval: 'You can\'t find what you\'ve saved. Your system is a write-only memory — information goes in but doesn\'t come out when you need it. <strong>First fix:</strong> Start linking notes to each other. Every time you create or process a note, connect it to at least one other note.',
+      };
+
+      insights.push({
+        type: 'weakness',
+        title: `Biggest Gap: ${weakest.name}`,
+        body: weaknessMessages[weakest.name],
+      });
+
+      // Opportunity insight based on qualifying answers
+      const solutionPref = answers[12]; // "Which best describes what you're looking for?"
+      let opportunityBody = '';
+
+      if (solutionPref === 2) {
+        // Done-for-you
+        opportunityBody = 'Based on your answers, you\'d benefit most from having someone build the foundation and then teaching you to maintain it. That\'s exactly what the BuildPKM setup service does — we build your system in a week, then train you to run it in 15 minutes a day.';
+      } else if (solutionPref === 1) {
+        // Coaching
+        opportunityBody = 'You know what you need to do — you need accountability and guidance to actually do it. A structured walkthrough with weekly check-ins will get you from "I should organize this" to "my system runs itself."';
+      } else {
+        // DIY or Curious
+        opportunityBody = 'You\'re the kind of person who wants to understand before you act. That instinct will serve you well. The key is to start small — one tool, one inbox, 15 minutes a day — and let the system grow from practice, not theory.';
+      }
+
+      insights.push({
+        type: 'opportunity',
+        title: 'Your Next Move',
+        body: opportunityBody,
+      });
+
+      container.innerHTML = insights.map(ins => `
+        <div class="insight-card ${ins.type}">
+          <div class="insight-title">${ins.title}</div>
+          <div class="insight-body">${ins.body}</div>
+        </div>
+      `).join('');
+    }
+
+    function generateCTA(scores) {
+      const container = document.getElementById('resultsCta');
+      const solutionPref = answers[12];
+
+      let ctaTitle, ctaBody, ctaButton, ctaHref;
+
+      if (scores.total >= 70) {
+        ctaTitle = 'Ready to go from good to exceptional?';
+        ctaBody = 'Your system works. Let\'s make it work harder — with AI agents that retrieve from your own thinking and automated pipelines that process while you sleep.';
+        ctaButton = 'Book a Strategy Call';
+        ctaHref = 'https://calendly.com/jonathan-kurniawan';
+      } else if (solutionPref === 2) {
+        ctaTitle = 'Want us to build it for you?';
+        ctaBody = 'We\'ll set up your entire PKM system in a week — tool selection, structure, capture pipelines, and processing routines — then train you to maintain it in 15 minutes a day.';
+        ctaButton = 'Book a Setup Call';
+        ctaHref = 'https://calendly.com/jonathan-kurniawan';
+      } else if (solutionPref === 1) {
+        ctaTitle = 'Want guided help building your system?';
+        ctaBody = 'A 4-week coaching program where we build your PKM system together, step by step, with weekly accountability and personalized recommendations.';
+        ctaButton = 'Book a Free Intro Call';
+        ctaHref = 'https://calendly.com/jonathan-kurniawan';
+      } else {
+        ctaTitle = 'Want the complete guide?';
+        ctaBody = 'Get the BuildPKM starter guide — the exact system used to process 2,451 bookmarks into a searchable, AI-powered knowledge base. No fluff. Just the steps.';
+        ctaButton = 'Get the Free Guide';
+        ctaHref = '#';
+      }
+
+      container.innerHTML = `
+        <h3>${ctaTitle}</h3>
+        <p>${ctaBody}</p>
+        <a href="${ctaHref}" class="btn-cta-results" target="_blank" rel="noopener">
+          ${ctaButton}
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>`;
+    }
+
+    // ─── INIT ───
+    buildScreens();
+
+    // Enable text question next buttons by default (they're optional)
+    questions.forEach((q, i) => {
+      if (q.type === 'text') {
+        const btn = document.getElementById(`btnNext${i}`);
+        if (btn) btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
