@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildPKM — Stop Hoarding. Start Thinking.</title>
+  <meta name="description" content="You've saved 10,000 things and can't find any of them. Take the free Digital Hoarding Assessment and get a system that actually works.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --teal: #008080;
+      --teal-dark: #006666;
+      --teal-light: #00a0a0;
+      --teal-glow: rgba(0, 128, 128, 0.15);
+      --teal-subtle: rgba(0, 128, 128, 0.06);
+      --bg: #F6F5EF;
+      --bg-warm: #EFEEE8;
+      --surface: #FFFFFF;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --text-light: #8a8a8a;
+      --border: #e0dfda;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(246, 245, 239, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    nav.scrolled { border-bottom-color: var(--border); }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--teal);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span { color: var(--text); }
+
+    .nav-cta {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 10px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 0 32px; }
+
+    .container { max-width: 1120px; margin: 0 auto; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-content { max-width: 560px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .btn-primary {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 16px 40px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 128, 128, 0.25);
+    }
+
+    .btn-primary svg { transition: transform 0.2s ease; }
+    .btn-primary:hover svg { transform: translateX(3px); }
+
+    .cta-meta {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      display: flex;
+      gap: 16px;
+    }
+
+    .cta-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ─── HERO VISUAL: TAB GRAVEYARD ─── */
+    .hero-visual {
+      position: relative;
+      height: 480px;
+    }
+
+    .tab-stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .tab-card {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tab-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transform: translateY(-4px) !important;
+    }
+
+    .tab-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .tab-favicon {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .tab-title {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-url {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-meta {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tab-card:nth-child(1) { top: 0; left: 0; transform: rotate(-2deg); z-index: 5; }
+    .tab-card:nth-child(2) { top: 40px; left: 40px; transform: rotate(1.5deg); z-index: 4; }
+    .tab-card:nth-child(3) { top: 90px; left: 10px; transform: rotate(-0.5deg); z-index: 3; }
+    .tab-card:nth-child(4) { top: 150px; left: 50px; transform: rotate(2deg); z-index: 2; }
+    .tab-card:nth-child(5) { top: 210px; left: 20px; transform: rotate(-1deg); z-index: 1; }
+    .tab-card:nth-child(6) { top: 270px; left: 60px; transform: rotate(0.8deg); z-index: 0; opacity: 0.5; }
+
+    .tab-count-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 10px 18px;
+      border-radius: 100px;
+      z-index: 10;
+    }
+
+    .tab-count-badge span {
+      color: var(--teal-light);
+    }
+
+    /* ─── PROBLEM SECTION ─── */
+    .problem {
+      padding-top: 120px;
+      padding-bottom: 120px;
+    }
+
+    .problem .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 24px;
+    }
+
+    .problem-text {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .problem-stats {
+      display: grid;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 1px var(--teal);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── SYMPTOMS SECTION ─── */
+    .symptoms {
+      padding-bottom: 120px;
+    }
+
+    .symptoms .container { max-width: 900px; }
+
+    .symptoms h2 { text-align: center; margin-bottom: 56px; }
+
+    .symptom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .symptom-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all 0.25s ease;
+    }
+
+    .symptom-item:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .symptom-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--teal-glow);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    .symptom-text {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ─── THREE PILLARS ─── */
+    .pillars {
+      padding-top: 100px;
+      padding-bottom: 120px;
+      background: var(--bg-warm);
+    }
+
+    .pillars .container { max-width: 1000px; }
+
+    .pillars-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .pillars-header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pillar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+
+    .pillar-number {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--teal);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .pillar-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .pillar-arrow {
+      color: var(--teal);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 20px;
+      font-family: var(--font-display);
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-it-works {
+      padding-top: 120px;
+      padding-bottom: 120px;
+    }
+
+    .how-it-works .container { max-width: 900px; }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .how-header p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--teal);
+      opacity: 0.25;
+      line-height: 1;
+    }
+
+    .step-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .step-time {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-top: 10px;
+    }
+
+    /* ─── CREDIBILITY ─── */
+    .credibility {
+      padding-bottom: 120px;
+    }
+
+    .credibility .container {
+      max-width: 800px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 56px 64px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .cred-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--teal-glow), var(--bg-warm));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .cred-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .cred-title {
+      font-size: 0.9rem;
+      color: var(--teal);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .cred-bio {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .cred-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .cred-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cred-stat-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .cred-stat-label {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    /* ─── QUOTE ─── */
+    .quote-section {
+      padding-bottom: 120px;
+    }
+
+    .quote-section .container {
+      max-width: 720px;
+      text-align: center;
+    }
+
+    blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    blockquote em {
+      font-style: normal;
+      color: var(--teal);
+    }
+
+    .quote-attr {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* ─── FINAL CTA ─── */
+    .final-cta {
+      padding-top: 100px;
+      padding-bottom: 120px;
+      background: var(--text);
+    }
+
+    .final-cta .container {
+      max-width: 680px;
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .final-cta p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary-light {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 18px 48px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary-light:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 128, 128, 0.35);
+    }
+
+    .final-cta .cta-meta {
+      justify-content: center;
+      margin-top: 16px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--text);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 32px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    footer a {
+      color: var(--teal-light);
+      text-decoration: none;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-in {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .stagger-1 { transition-delay: 0.05s; }
+      .stagger-2 { transition-delay: 0.1s; }
+      .stagger-3 { transition-delay: 0.15s; }
+      .stagger-4 { transition-delay: 0.2s; }
+      .stagger-5 { transition-delay: 0.25s; }
+      .stagger-6 { transition-delay: 0.3s; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      section { padding: 0 20px; }
+      nav { padding: 14px 20px; }
+
+      .hero { min-height: auto; padding-top: 100px; padding-bottom: 60px; }
+      .hero .container { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { height: 360px; }
+      .tab-card { width: 260px; }
+
+      .problem .container { grid-template-columns: 1fr; gap: 48px; }
+
+      .symptom-grid { grid-template-columns: 1fr; }
+      .pillar-grid { grid-template-columns: 1fr; }
+
+      .step { grid-template-columns: 48px 1fr; gap: 20px; }
+      .step-num { font-size: 1.8rem; }
+
+      .credibility .container {
+        grid-template-columns: 1fr;
+        padding: 40px 32px;
+        text-align: center;
+      }
+
+      .cred-photo { margin: 0 auto; width: 140px; height: 140px; font-size: 2.2rem; }
+      .cred-stats { justify-content: center; }
+
+      .final-cta { padding-top: 80px; padding-bottom: 80px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.6rem; }
+      .tab-card { width: 220px; }
+      .hero-visual { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="logo">Build<span>PKM</span></a>
+    <a href="#quiz" class="nav-cta">Take the Assessment</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Free Assessment</div>
+        <h1>You save everything. <em>You find nothing.</em></h1>
+        <p class="hero-sub">
+          2,000 bookmarks. 47 browser tabs. Notes scattered across five apps.
+          Sound familiar? You're not disorganized — you're a digital hoarder
+          without a processing system.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#quiz" class="btn-primary">
+            Take the Free Assessment
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <div class="cta-meta">
+            <span>3 minutes</span>
+            <span>Completely free</span>
+            <span>Instant results</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="tab-stack">
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #FF6B6B;"></div>
+              <div class="tab-title">How to Build a Second Brain — Complete...</div>
+            </div>
+            <div class="tab-url">youtube.com/watch?v=nFVe...</div>
+            <div class="tab-meta">
+              <span>Saved 8 months ago</span>
+              <span>Never watched</span>
+            </div>
+          </div>
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #4ECDC4;"></div>
+              <div class="tab-title">The PARA Method: A Universal System...</div>
+            </div>
+            <div class="tab-url">fortelabs.com/blog/para/</div>
+            <div class="tab-meta">
+              <span>Bookmarked 1 year ago</span>
+              <span>Read once</span>
+            </div>
+          </div>
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #45B7D1;"></div>
+              <div class="tab-title">My Obsidian Setup 2025 — PKM Work...</div>
+            </div>
+            <div class="tab-url">reddit.com/r/ObsidianMD/comments...</div>
+            <div class="tab-meta">
+              <span>Saved 5 months ago</span>
+              <span>Skimmed</span>
+            </div>
+          </div>
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #96CEB4;"></div>
+              <div class="tab-title">Zettelkasten — How One German Schol...</div>
+            </div>
+            <div class="tab-url">writingcooperative.com/zettelk...</div>
+            <div class="tab-meta">
+              <span>Saved 11 months ago</span>
+              <span>Never read</span>
+            </div>
+          </div>
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #FFEAA7;"></div>
+              <div class="tab-title">Nick Milo — Linking Your Thinking W...</div>
+            </div>
+            <div class="tab-url">youtube.com/watch?v=QgbL...</div>
+            <div class="tab-meta">
+              <span>Saved 3 months ago</span>
+              <span>Never watched</span>
+            </div>
+          </div>
+          <div class="tab-card">
+            <div class="tab-card-header">
+              <div class="tab-favicon" style="background: #DDA0DD;"></div>
+              <div class="tab-title">Progressive Summarization: A Practic...</div>
+            </div>
+            <div class="tab-url">fortelabs.com/blog/progres...</div>
+          </div>
+          <div class="tab-count-badge">
+            +<span>2,347</span> more saved
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem">
+    <div class="container">
+      <div>
+        <div class="section-label">The real problem</div>
+        <h2>Saving is not knowing. Hoarding is not thinking.</h2>
+        <p class="problem-text">
+          Every bookmark, highlight, and saved article gives you a small dopamine hit.
+          It feels productive. But those open loops run in the background like browser tabs
+          — consuming mental energy even when you're not looking at them.
+        </p>
+        <p class="problem-text">
+          The gap isn't capture. You're excellent at capture. The gap is
+          <strong>processing</strong> — turning raw saves into your own thinking,
+          your own words, your own decisions.
+        </p>
+      </div>
+      <div class="problem-stats">
+        <div class="stat-card fade-in">
+          <div class="stat-number">89%</div>
+          <div class="stat-label">of saved content is never revisited after the initial save</div>
+        </div>
+        <div class="stat-card fade-in stagger-1">
+          <div class="stat-number">5.3</div>
+          <div class="stat-label">average number of note-taking apps people use simultaneously</div>
+        </div>
+        <div class="stat-card fade-in stagger-2">
+          <div class="stat-number">23min</div>
+          <div class="stat-label">average time to refocus after context-switching between scattered notes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYMPTOMS -->
+  <section class="symptoms">
+    <div class="container">
+      <h2>Recognize yourself?</h2>
+      <div class="symptom-grid">
+        <div class="symptom-item fade-in">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <span class="symptom-text">You have 40+ browser tabs open right now and feel anxious about closing any of them</span>
+        </div>
+        <div class="symptom-item fade-in stagger-1">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span class="symptom-text">You bookmark things "to read later" but later never comes</span>
+        </div>
+        <div class="symptom-item fade-in stagger-2">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </div>
+          <span class="symptom-text">You know you saved something about that topic but can't find it anywhere</span>
+        </div>
+        <div class="symptom-item fade-in stagger-3">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <span class="symptom-text">You've read about PARA, Zettelkasten, and Second Brain but never actually finished setting up any of them</span>
+        </div>
+        <div class="symptom-item fade-in stagger-4">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <span class="symptom-text">You've switched note apps 3+ times in the last year hoping the tool would fix the habit</span>
+        </div>
+        <div class="symptom-item fade-in stagger-5">
+          <div class="symptom-icon">
+            <svg width="18" height="18" fill="none" stroke="#008080" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <span class="symptom-text">The thought of organizing your digital life feels so overwhelming you avoid thinking about it</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE PILLARS -->
+  <section class="pillars">
+    <div class="container">
+      <div class="pillars-header">
+        <div class="section-label">The assessment measures</div>
+        <h2>Three things that matter</h2>
+        <p>We diagnose where your system breaks down across the only three stages that matter for turning information into intelligence.</p>
+      </div>
+      <div class="pillar-grid">
+        <div class="pillar-card fade-in">
+          <div class="pillar-number">01</div>
+          <div class="pillar-title">Capture Friction</div>
+          <div class="pillar-desc">How quickly can you save an idea before it disappears? We measure your input channels, speed, and whether capture actually leads somewhere.</div>
+          <div class="pillar-arrow">Captured &rarr;</div>
+        </div>
+        <div class="pillar-card fade-in stagger-1">
+          <div class="pillar-number">02</div>
+          <div class="pillar-title">Processing Habit</div>
+          <div class="pillar-desc">Do you have a rhythm for turning raw saves into your own thinking? This is where 90% of people fail — and where the real value lives.</div>
+          <div class="pillar-arrow">Synthesized &rarr;</div>
+        </div>
+        <div class="pillar-card fade-in stagger-2">
+          <div class="pillar-number">03</div>
+          <div class="pillar-title">Retrieval Confidence</div>
+          <div class="pillar-desc">Can you find what you need, when you need it? A system you can't search is a graveyard. We measure whether your knowledge actually works for you.</div>
+          <div class="pillar-arrow">Operationalized</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="how-header">
+        <div class="section-label">How it works</div>
+        <h2>3 minutes to clarity</h2>
+        <p>No more reading about systems you never implement. Get a diagnosis, not another framework.</p>
+      </div>
+      <div class="steps">
+        <div class="step fade-in">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Answer 15 honest questions</h3>
+            <p>About your capture habits, processing routines, and how you retrieve information when it matters. No right or wrong — just where you actually are.</p>
+            <span class="step-time">~3 minutes</span>
+          </div>
+        </div>
+        <div class="step fade-in stagger-1">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Get your Digital Hoarding Score</h3>
+            <p>See exactly where your system breaks — capture, processing, or retrieval — with specific scores for each pillar and a visual breakdown.</p>
+            <span class="step-time">Instant results</span>
+          </div>
+        </div>
+        <div class="step fade-in stagger-2">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Receive your personalized action plan</h3>
+            <p>Not another 47-step guide. Three targeted recommendations based on your specific breakdown, starting with the one change that will have the biggest impact.</p>
+            <span class="step-time">Tailored to you</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDIBILITY -->
+  <section class="credibility">
+    <div class="container">
+      <div class="cred-photo">JK</div>
+      <div>
+        <div class="cred-name">Jonathan Kurniawan</div>
+        <div class="cred-title">AI Strategist &amp; Knowledge Systems Builder</div>
+        <p class="cred-bio">
+          I've processed 2,451 bookmarks into an atomic knowledge system, built AI agents
+          that retrieve from my own thinking, and spent 2+ years testing what actually works
+          in personal knowledge management. I built this assessment because I was the
+          digital hoarder — and I found the way out.
+        </p>
+        <div class="cred-stats">
+          <div class="cred-stat-item">
+            <span class="cred-stat-num">2,451+</span>
+            <span class="cred-stat-label">Notes processed</span>
+          </div>
+          <div class="cred-stat-item">
+            <span class="cred-stat-num">2+ years</span>
+            <span class="cred-stat-label">PKM practice</span>
+          </div>
+          <div class="cred-stat-item">
+            <span class="cred-stat-num">3</span>
+            <span class="cred-stat-label">AI agents built on PKM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="quote-section">
+    <div class="container">
+      <blockquote>
+        "Intellectual hoarding consumes processing power even when you're not
+        thinking about it. Open loops run in the background <em>like browser tabs</em>,
+        slowing everything else down."
+      </blockquote>
+      <div class="quote-attr">— From the BuildPKM framework</div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta" id="quiz">
+    <div class="container">
+      <div class="section-label" style="color: rgba(255,255,255,0.4);">Ready?</div>
+      <h2>Find out where your system breaks</h2>
+      <p>
+        Stop reading about PKM systems and find out what's actually wrong with yours.
+        The assessment takes 3 minutes and gives you one clear next step.
+      </p>
+      <a href="#" class="btn-primary-light" id="quiz-cta">
+        Start the Free Assessment
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="cta-meta">
+        <span>3 minutes</span>
+        <span>Completely free</span>
+        <span>No signup required to start</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>BuildPKM &copy; 2026 &middot; Built by <a href="#">Jonathan Kurniawan</a></p>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Intersection Observer for scroll animations
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
