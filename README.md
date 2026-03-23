@@ -1,6 +1,6 @@
 # BuildPKM
 
-**Stop hoarding. Start thinking.**
+**Stop hoarding. Start compounding.**
 
 A free Digital Hoarding Assessment that scores your knowledge management system across three pillars — Capture, Processing, and Retrieval — and gives you a personalized action plan.
 

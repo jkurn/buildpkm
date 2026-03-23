@@ -153,6 +153,22 @@
       color: var(--teal);
     }
 
+    /* ─── TYPEWRITER ROTATION ─── */
+    .typewriter-wrap {
+      display: block;
+    }
+    .typewriter-word {
+      display: inline-block;
+      color: var(--teal);
+      border-right: 3px solid var(--teal);
+      animation: blink-caret 0.7s step-end infinite;
+      min-width: 1ch;
+    }
+    @keyframes blink-caret {
+      0%, 100% { border-color: var(--teal); }
+      50% { border-color: transparent; }
+    }
+
     .hero-sub {
       font-size: 1.125rem;
       color: var(--text-muted);
@@ -816,7 +832,7 @@
     <div class="container">
       <div class="hero-content">
         <div class="hero-badge">Free Assessment</div>
-        <h1>You save everything. <em>You find nothing.</em></h1>
+        <h1>Stop hoarding.<br><span class="typewriter-wrap">Start <span class="typewriter-word" id="typewriter"></span></span></h1>
         <p class="hero-sub">
           2,000 bookmarks. 47 browser tabs. Notes scattered across five apps.
           Sound familiar? You're not disorganized — you're a digital hoarder
@@ -1153,6 +1169,46 @@
         }
       });
     });
+  </script>
+
+  <script>
+    (function() {
+      const words = ['compounding.', 'deploying.', 'building.', 'connecting.', 'actioning.', 'monetizing.', 'implementing.'];
+      const el = document.getElementById('typewriter');
+      let wordIdx = 0;
+      let charIdx = 0;
+      let deleting = false;
+      const typeSpeed = 90;
+      const deleteSpeed = 50;
+      const pauseAfterType = 2000;
+      const pauseAfterDelete = 400;
+
+      function tick() {
+        const word = words[wordIdx];
+        if (!deleting) {
+          el.textContent = word.slice(0, charIdx + 1);
+          charIdx++;
+          if (charIdx === word.length) {
+            deleting = true;
+            setTimeout(tick, pauseAfterType);
+          } else {
+            setTimeout(tick, typeSpeed);
+          }
+        } else {
+          el.textContent = word.slice(0, charIdx);
+          charIdx--;
+          if (charIdx < 0) {
+            deleting = false;
+            charIdx = 0;
+            wordIdx = (wordIdx + 1) % words.length;
+            setTimeout(tick, pauseAfterDelete);
+          } else {
+            setTimeout(tick, deleteSpeed);
+          }
+        }
+      }
+      tick();
+    })();
   </script>
 
 </body>
